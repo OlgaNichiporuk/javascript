@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+}
+
+body {
+ box-sizing: border-box;
+ font-family: Inter, sans-serif;
+ font-weight: 700;
+ margin-left: 200px;
+ 
+}
+
+h1 {
+    margin-left: 85px;
+    margin-top: 30px;
+    color: #463069;
+}
+
+.container {
+    background-color :#625a63;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    width: 500px;
+    height: 150px;
+    margin-top: 25px;
+    margin-left: 150px;
+    border-radius: 20px;
+}
+
+.mb-3 {
+    margin-top: 10px;
+    font-size: 28px;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.btn-primary {
+    margin: 20px 150px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.form-label {
+    display: flex;
+    justify-content: center;
+}
+
+#birthDate {
+    margin-left: 114px;
+    height: 25px;
+    font-family: Inter;
+}
+
+.img_1 {
+    width: 400px;
+    margin-top: 25px;
+    margin-left: 200px;
+}
+

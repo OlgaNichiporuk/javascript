@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+</head>
+
+<body>
+    
+    <h1>Я предскажу твой гороскоп на 2024 год!</h1>
+   <div class="container">
+    
+        <form>
+            <div class="mb-3">
+                <label for="birthDate" class="form-label">Когда ты родился?</label>
+                <input type="datetime-local" class="form-control" id="birthDate">
+            </div>
+            <button type="submit" class="btn btn-primary">Рассчитать</button>
+        </form>
+
+        <div class="alert alert-primary" role="alert" style="display: none;"></div>
+    </div>
+    <img class="img_1" src="./img_1.png">
+    <script>
+         
+        const calc = () => {
+            const birthDate = document.querySelector('#birthDate').value
+            if (birthDate === '') return
+
+
+            const birthDateTime = new Date(birthDate)
+            const currentTime = new Date()
+
+            let timeDiff = currentTime - birthDateTime
+            if (timeDiff <= 0) return
+            
+            let result = 'Ваш возраст: '
+            result += Math.floor(timeDiff / 1000 / 60 / 60 / 24 / 365)
+            result += 'лет /n'
+            result += Math.floor(timeDiff / 1000 / 60 / 60 / 24 - (365 * Math.floor(timeDiff / 1000 / 60 / 60 / 24 / 365)))
+            result += 'дней /n'
+            result += Math.floor(timeDiff / 1000 / 60 / 60)
+            result += 'минут /n'
+            const birthDateMonthIndex = birthDateTime.getMonth() // указанный месяц др
+            const birthDateDayIndex = birthDateTime.getDate() // указанный день др
+            const signs = {
+                oven: {
+                    label: 'Овен.',
+                    prediction: ' Будущий 2024 год закружит вас водоворотом новых идей, событий, впечатлений. Не бойтесь перемен, потому что именно они помогут изменить вашу жизнь к лучшему!',
+                    fromDay: 21,
+                    toDay: 20,
+                    fromMonthIndex: 2,
+                    toMonthIndex: 3,
+                },
+                taurus: {
+                    label: 'Телец.',
+                    text: ' У вас будет в течении года период, когда сама Фортуна постучится в ваши двери – если вы хотите чего-то крупного, смелого, масштабного и яркого – запланируйте это на период с января по май. А еще лучше – на январь/февраль',
+                    fromDay: 21,
+                    fromMonthIndex: 3,
+                    toDay: 21,
+                    toMonthIndex: 4
+                },
+                gemini: {
+                    label: 'Близнецы',
+                    text: ' Для вас грядущий год окажется периодом душевного беспокойства. Как бы ни сложились дела, воспринимайте любые сложности с несколько иной точки зрения, скорее, как возможность для самосовершенствования и поиска себя в этом мире.',
+                    fromDay: 21,
+                    fromMonthIndex: 4,
+                    toDay: 21,
+                    toMonthIndex: 5
+                },
+                canser: {
+                    label: 'Рак.',
+                    text: ' В этом году вам придётся много раз удивляться. События будут развиваться молниеносно, а изменения затронут едва ли не все сферы вашей жизни. Однако не думайте, что жизнь в целом кардинально изменится, перемены будут иметь скорее качественный характер.',
+                    fromDay: 22,
+                    fromMonthIndex: 5,
+                    toDay: 22,
+                    toMonthIndex: 6
+                },
+                leo: {
+                    label: 'Лев.',
+                    text: ' В нынешнем году весь ранее проделанный ухабистый жизненный путь Львов, наконец, превратится в ровную и широкую дорогу счастья и процветания. Даже если пока это звучит подобно мечте, не стоит отказываться от неё из страха перед неизвестностью…',
+                    fromDay: 23,
+                    fromMonthIndex: 6,
+                    toDay: 22,
+                    toMonthIndex: 7
+                },
+                virgo: {
+                    label: 'Дева.',
+                    text: ' У вас на грядущий год наверняка большие планы, многое из задуманного свершится, только заслуга в том будет исключительно ваша. Весь проделанный ранее путь приведёт к долгожданному успеху…Впрочем, почивать на лаврах и наслаждаться честно заслуженными плодами кропотливой работы не получится. Вам придётся продолжать борьбу за своё место под солнцем. А если решитесь на кардинальные перемены в жизни, то Дракон, без сомнений, вас поддержит.',
+                    fromDay: 23,
+                    fromMonthIndex: 7,
+                    toDay: 22,
+                    toMonthIndex: 8
+                },
+                libra: {
+                    label: 'Весы.',
+                    text: ' Хозяин года - Дракон заставит вас ответственно относиться к делу и не бросать на полпути начатое. Выдержка и целеустремлённость – вот лучшие помощники в этом деле. Старайтесь чётко ставить себе достижимые цели, не рисуйте в своём воображении воздушные замки, в противном случае потратите время впустую.',
+                    fromDay: 23,
+                    fromMonthIndex: 8,
+                    toDay: 23,
+                    toMonthIndex: 9
+                },
+                scorpio: {
+                    label: 'Скорпион.',
+                    text: ' Ваш главный союзник – интуиция, именно она поможет избежать возможных неприятностей, и найти путь для самосовершенствования и продвижения. Можете сменить сферу деятельности, или, напротив, углубиться в выбранную ранее область, вне зависимости от вашего решения, результат будет отличным.',
+                    fromDay: 24,
+                    fromMonthIndex: 9,
+                    toDay: 22,
+                    toMonthIndex: 10
+                },
+                sagittarius: {
+                    label: 'Стрелец.',
+                    text: ' В нынешнем году события в вашей жизни будут разворачиваться с невероятной скоростью. Активный и мудрый Дракон принесёт вам много новых впечатлений, а также кардинально изменит взгляд на мир. Если говорить в общем, то вам ожидает удача и успех. Помимо прочего, звёзды в этом году настроены проверить вас на прочность и посмотреть, сможете ли вы выдержать вал мелких неурядиц или сломаетесь даже от лёгкого ветерка.',
+                    fromDay: 23,
+                    fromMonthIndex: 10,
+                    toDay: 21,
+                    toMonthIndex: 11
+                },
+                capricorn: {
+                    label: 'Козерог.',
+                    text: ' Грядущий год станет для Козерогов годом контрастов и резких перепадов, звёзды приготовили для вас два разных сценария, а вот какой из них будет претворён в жизнь — неизвестно. Весь год будут происходить вещи, совершенно несвязанные с вашими поступками или принятыми решениями. Если приложите достаточно усилий, то события непременно пойдут по вашему сценарию.',
+                    fromDay: 22,
+                    fromMonthIndex: 11,
+                    toDay: 19,
+                    toMonthIndex: 0
+                },
+                aquarius: {
+                    label: 'Водолей.',
+                    text: ' В 2024 году Водолеям будет не до скуки, в жизни произойдёт множество невероятно милых, радостных событий. Можно с уверенностью сказать, что символ года поспособствует вашему продвижению и процветанию. Удача улыбнётся только тем, кто не боится действовать и придерживаются активной жизненной позиции.',
+                    fromDay: 20,
+                    fromMonthIndex: 0,
+                    toDay: 18,
+                    toMonthIndex: 1
+                },
+                pisces: {
+                    label: 'Рыбы.',
+                    text: ' Ждите в нынешнем году укрепления родственных связей. Многие, даже самые застарелые раны и давние обиды останутся позади. Будьте готовы вновь впустить в свою жизнь тех, кого вы больше никогда не планировали увидеть.',
+                    fromDay: 19,
+                    fromMonthIndex: 1,
+                    toDay: 20,
+                    toMonthIndex: 2
+                }
+            }
+         
+            let zodiac = 'Ваш знак: '
+    for (const key in signs) {
+      const { fromMonthIndex, toMonthIndex, fromDay, toDay } = signs[key];
+
+      if (
+        (birthDateMonthIndex === fromMonthIndex && birthDateDayIndex >= fromDay) ||
+        (birthDateMonthIndex === toMonthIndex && birthDateDayIndex <= toDay)
+      ) {
+        console.log(signs[key]);
+        zodiac += signs[key].label
+        zodiac += signs[key].text;
+      }
+    }
+
+    let picture = document.querySelector ('.img_1').style='transform: scale(2.0)'
+alert(zodiac)
+};
+
+const $button = document.querySelector('.btn-primary');
+$button.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+ 
+  calc();
+  
+});
+     
+    </script>
+</body>
+
+</html>

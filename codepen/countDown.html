@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./codepen.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="date" name="time-to" class="time-to" id="time-to" value="">
+
+    <div class="container">
+        <div class="clock-column">
+            <p class="clock-day clock-timer" id="days">0</p>
+            <p class="clock-label">Days</p>
+        </div>
+
+        <div class="clock-column">
+            <p class="clock-hours clock-timer" id="hours">0</p>
+            <p class="clock-label">Hours</p>
+        </div>
+
+        <div class="clock-column">
+            <p class="clock-minutes clock-timer" id="minutes">33</p>
+            <p class="clock-label">Minutes</p>
+        </div>
+
+        <div class="clock-column">
+            <p class="clock-seconds clock-timer" id="seconds">23</p>
+            <p class="clock-label">Seconds</p>
+        </div>
+    </div>
+    <script>
+        const data = document.getElementById('time-to')
+        let timeDifference = 0
+        data.addEventListener('change', (e) => {
+
+            let startDate = new Date(data.value).getTime()
+            let timeNow = new Date().getTime()
+
+            if (startDate <= timeNow) throw new Error('error')
+            
+            setInterval(() => {
+                updateCounter(startDate - new Date().getTime())
+            }, 1000)
+           
+        })
+
+        const updateCounter = (time) => {
+                const days = Math.floor(time / (1000 * 60 * 60 * 24));
+                document.getElementById('days').innerHTML = days;
+                const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('hours').innerHTML = hours;
+                const minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('minutes').innerHTML = minutes;
+                const seconds = Math.floor((time % (1000 * 60)) / 1000);
+                document.getElementById('seconds').innerHTML = seconds;
+                console.log(days, hours, minutes, seconds)
+            }
+
+    </script>
+</body>
+
+</html>
