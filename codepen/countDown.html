@@ -40,11 +40,18 @@
             let startDate = new Date(data.value).getTime()
             let timeNow = new Date().getTime()
 
-            if (startDate <= timeNow) throw new Error('error')
+            if (startDate <= timeNow) {
+                alert('Внимание! Для того, чтобы таймер обратного отчёта работал, необходимо выбирать БУДУЩУЮ дату.')
+            }
+           
             
-            setInterval(() => {
+            const interval = setInterval(() => {
                 updateCounter(startDate - new Date().getTime())
             }, 1000)
+            
+            if(startDate <= 0) {
+                clearInterval(interval)
+            }
            
         })
 
